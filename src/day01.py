@@ -1,10 +1,7 @@
-total = 0
-
-nums = "0123456789"
-
 with open('inputs/day01.txt') as f:
     data = f.readlines()
 
+total = 0
 for line in data:
     line.strip()
     ints = [c for c in line if c.isnumeric()]
