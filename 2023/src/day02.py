@@ -4,7 +4,6 @@ from math import prod
 with open('inputs/day02.txt') as f:
     data = f.readlines()
 
-
 max_vals = {'red': 12, 'green': 13, 'blue': 14}
 vals = {'red': 0, 'green': 0, 'blue': 0}
 
