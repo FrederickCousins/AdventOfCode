@@ -2,17 +2,10 @@ import re
 from collections import deque
 import timeit
 
-# process command line args
-import sys
-
-# get the filename from the command line
-file1 = sys.argv[1]
-file2 = sys.argv[2]
-
 start_time = timeit.default_timer()
 # Create initial stacks
 stacks = [deque() for _ in range(9)]
-with open(file1) as f:
+with open('2022/inputs/day05_1.txt') as f:
     for line in f:
         for i in range(0,36,4):
             element = line[i:i+4].strip('[ ]\n')
@@ -21,7 +14,7 @@ with open(file1) as f:
                 stacks[i//4].appendleft(element)
 
 # Process moves
-with open(file2) as f:
+with open('2022/inputs/day05_2.txt') as f:
     for line in f:
         # format: move 4 from 9 to 6
         move_steps = re.search(r'move (\d+) from (\d+) to (\d+)', line)
@@ -47,7 +40,7 @@ print()
 
 # Recreate initial stacks
 stacks = [deque() for _ in range(9)]
-with open(file1) as f:
+with open('2022/inputs/day05_1.txt') as f:
     for line in f:
         for i in range(0,36,4):
             element = line[i:i+4].strip('[ ]\n')
@@ -56,7 +49,7 @@ with open(file1) as f:
                 stacks[i//4].appendleft(element)
 
 # Process moves
-with open(file2) as f:
+with open('2022/inputs/day05_2.txt') as f:
     for line in f:
         # format: move 4 from 9 to 6
         move_steps = re.search(r'move (\d+) from (\d+) to (\d+)', line)

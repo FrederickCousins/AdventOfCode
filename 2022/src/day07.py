@@ -1,5 +1,3 @@
-import sys
-
 class Dir:
     def __init__(self, name: str, parent: 'Dir' = None) -> None:
         self.name = name
@@ -40,12 +38,9 @@ class Dir:
         return self
 
 
-# get the filename from the command line
-file = sys.argv[1]
-
 current_level = Dir('root')
 ls_state = False #
-with open(file) as f:
+with open('2022/inputs/day07.txt') as f:
     for line in f:
         words = line.strip().split()
         if words[0] == '$':

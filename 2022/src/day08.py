@@ -1,10 +1,4 @@
-import sys
-
-# get the input filename from the command line
-filename = sys.argv[1]
-
-
-with open(filename) as f:
+with open('2022/inputs/day08.txt') as f:
     # read the file into a matrix
     grid = [[int(char) for char in line.strip()] for line in f]
 

@@ -1,16 +1,12 @@
 from collections import deque
 
-# process command line args
-import sys
 
-# get the filename from the command line
-file = sys.argv[1]
 
 
 length_of_marker = 4
 buffer = deque(maxlen=length_of_marker)
 count = length_of_marker
-with open(file) as f:
+with open('2022/inputs/day06.txt') as f:
     buffer.extend(f.read(length_of_marker))
     # print(buffer)
     
@@ -32,7 +28,7 @@ print(f'Part 1: {count}')
 length_of_marker = 14
 buffer = deque(maxlen=length_of_marker)
 count = length_of_marker
-with open(file) as f:
+with open('2022/inputs/day06.txt') as f:
     buffer.extend(f.read(length_of_marker))
     # print(buffer)
     

@@ -1,16 +1,10 @@
-# process command line args
-import sys
-
-# get the filename from the command line
-filename = sys.argv[1]
-
 # open the file
-with open(filename) as f:
+with open('2022/inputs/day02.txt') as f:
     # read the file into a list of lines
     lines = f.readlines()
 
 
- # Rock: A, X        1
+# Rock: A, X        1
 # Paper: B, Y       2
 # Scissors: C, Z    3
 

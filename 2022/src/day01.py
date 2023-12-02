@@ -1,11 +1,5 @@
-# process command line args
-import sys
-
-# get the filename from the command line
-filename = sys.argv[1]
-
 # open the file
-with open(filename) as f:
+with open('2022/inputs/day01.txt') as f:
     # read the file into a list
     lines = f.readlines()
 

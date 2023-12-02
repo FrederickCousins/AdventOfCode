@@ -1,15 +1,9 @@
 import re
 
-# process command line args
-import sys
-
-# get the filename from the command line
-filename = sys.argv[1]
-
 count1 = 0
 count2 = 0
 # open the file
-with open(filename) as f:
+with open('2022/inputs/day04.txt') as f:
     for line in f:
         # process line 'num1-num2,num3-num4' using regex
         # print(f"Processing line: {line.strip()}")
