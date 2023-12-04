@@ -1,2 +1,5 @@
 # Hide input folders
 **/inputs/
+
+# Hide virtual environment files
+.venv/
