@@ -36,11 +36,8 @@ for line in data:
     for i in range(num_common_elements):
         part2dict[card_id + 1 + i] += part2dict[card_id]
 
+res2 = sum(part2dict.values())
 
 print(f"Part 1: {res1}")
 
-res2 = sum(part2dict.values())
-
 print(f"Part 2: {res2}")
-
-print(part2dict)
