@@ -1,39 +1,64 @@
-with open('2022/inputs/day08.txt') as f:
-    # read the file into a matrix
+import aocd
+
+
+def loadInput():
+    f = aocd.get_data(year=2022, day=8).split("\n")
+
     grid = [[int(char) for char in line.strip()] for line in f]
+    gridT = [[grid[j][i] for j in range(len(grid))] for i in range(len(grid[0]))]
+    return grid, gridT
 
-for row in grid:
-    print(row)
 
-# Initialize max_from_* lists
-max_from_top = [list(row) for row in grid]
-max_from_bottom = [list(row) for row in grid]
-max_from_left = [list(row) for row in grid]
-max_from_right = [list(row) for row in grid]
+def part1(grid, gridT):
+    total = 0
+    for i, row in enumerate(grid):
+        for j, tree in enumerate(row):
+            col = gridT[j]
+            above = col[:i]
+            left = row[:j]
+            below = col[i + 1 :]
+            right = row[j + 1 :]
+            if (
+                all(tree > x for x in above)
+                or all(tree > x for x in left)
+                or all(tree > x for x in below)
+                or all(tree > x for x in right)
+            ):
+                total += 1
 
-# Update max_from_top and max_from_left
-for i in range(len(grid)):
-    for j in range(len(grid[0])):
-        if i > 0:
-            max_from_top[i][j] = max(max_from_top[i-1][j], grid[i][j])
-        if j > 0:
-            max_from_left[i][j] = max(max_from_left[i][j-1], grid[i][j])
+    print(f"Part 1: {total}")
 
-# Update max_from_bottom and max_from_right
-for i in range(len(grid)-1, -1, -1):
-    for j in range(len(grid[0])-1, -1, -1):
-        if i < len(grid)-1:
-            max_from_bottom[i][j] = max(max_from_bottom[i+1][j], grid[i][j])
-        if j < len(grid[0])-1:
-            max_from_right[i][j] = max(max_from_right[i][j+1], grid[i][j])
 
-# Check if each cell is visible from the edge
-for i in range(len(grid)):
-    for j in range(len(grid[0])):
-        if grid[i][j] < min(max_from_top[i][j], max_from_bottom[i][j], max_from_left[i][j], max_from_right[i][j]):
-            # The cell is not visible from the edge
-            print(f'i,j = {i},{j} is invisible')
-            
+def viewingDistance(height, trees):
+    if not trees:
+        return 0
 
-for row in max_from_top:
-    print(row)
+    for i, tree in enumerate(trees, 1):
+        if tree >= height:
+            return i
+
+    return len(trees)
+
+
+def part2(grid, gridT):
+    best = 0
+    for i, row in enumerate(grid):
+        for j, tree in enumerate(row):
+            col = gridT[j]
+
+            above = viewingDistance(tree, col[:i][::-1])
+            left = viewingDistance(tree, row[:j][::-1])
+            below = viewingDistance(tree, col[i + 1 :])
+            right = viewingDistance(tree, row[j + 1 :])
+
+            score = above * left * below * right
+
+            best = max(best, score)
+
+    print(f"Part 2: {best}")
+
+
+input = loadInput()
+
+part1(*input)
+part2(*input)
