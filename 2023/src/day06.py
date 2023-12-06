@@ -1,5 +1,5 @@
 import aocd
-from math import prod
+import math
 
 
 def loadInput():
@@ -9,34 +9,29 @@ def loadInput():
     return times, distances
 
 
-def calcDistance(hold_time, total_time):
-    return (total_time - hold_time) * hold_time
+def calcNumSuccessful(T, D):
+    discriminant = T * T - 4 * D
+
+    # Discriminant always >= 0 in the problem set
+    top = math.ceil(0.5 * (-T + math.sqrt(discriminant)))
+    bot = math.floor(0.5 * (-T - math.sqrt(discriminant)))
+
+    return top - bot - 1
 
 
 def part1(times, distances):
     num_successful = []
     for time, distance in zip(times, distances):
-        num = 0
-        for i in range(time):
-            s = calcDistance(i, time)
-            if s > distance:
-                num += 1
-        num_successful.append(num)
+        num_successful.append(calcNumSuccessful(time, distance))
 
-    print(f"Part 1: {prod(num_successful)}")
+    print(f"Part 1: {math.prod(num_successful)}")
 
 
 def part2(times, distances):
-    time = int("".join(map(str, times)))
-    distance = int("".join(map(str, distances)))
-    num_successful = 0
+    T = int("".join(map(str, times)))
+    D = int("".join(map(str, distances)))
 
-    for i in range(time):
-        s = calcDistance(i, time)
-        if s > distance:
-            num_successful += 1
-
-    print(f"Part 2: {num_successful}")
+    print(f"Part 2: {calcNumSuccessful(T, D)}")
 
 
 input = loadInput()
