@@ -5,7 +5,7 @@ def loadInput():
     f = aocd.get_data(year=2022, day=8).split("\n")
 
     grid = [[int(char) for char in line.strip()] for line in f]
-    gridT = [[grid[j][i] for j in range(len(grid))] for i in range(len(grid[0]))]
+    gridT = list(zip(*grid))
     return grid, gridT
 
 
@@ -16,8 +16,8 @@ def part1(grid, gridT):
             col = gridT[j]
             above = col[:i]
             left = row[:j]
-            below = col[i + 1 :]
-            right = row[j + 1 :]
+            below = col[i + 1:]
+            right = row[j + 1:]
             if (
                 all(tree > x for x in above)
                 or all(tree > x for x in left)
@@ -48,8 +48,8 @@ def part2(grid, gridT):
 
             above = viewingDistance(tree, col[:i][::-1])
             left = viewingDistance(tree, row[:j][::-1])
-            below = viewingDistance(tree, col[i + 1 :])
-            right = viewingDistance(tree, row[j + 1 :])
+            below = viewingDistance(tree, col[i + 1:])
+            right = viewingDistance(tree, row[j + 1:])
 
             score = above * left * below * right
 

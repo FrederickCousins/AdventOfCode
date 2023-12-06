@@ -1,4 +1,3 @@
-
 def loadInput(filename: str) -> tuple[list, list]:
     sections = open(filename).read().strip().split("\n\n")
 
@@ -6,9 +5,8 @@ def loadInput(filename: str) -> tuple[list, list]:
 
     seeds = [int(x) for x in seeds.split(":")[1].split()]
 
-    maps = [[list(map(int, line.split())) 
-            for line in m.split("\n")[1:]] 
-            for m in sections
+    maps = [
+        [list(map(int, line.split())) for line in m.split("\n")[1:]] for m in sections
     ]
 
     return seeds, maps
