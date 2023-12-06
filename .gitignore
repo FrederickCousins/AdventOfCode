@@ -1,5 +1,9 @@
 # Hide input folders
 **/inputs/
 
-# Hide virtual environment files
+# Hide environment files
 .venv/
+.env
+
+# Hide vscode files
+.vscode/
