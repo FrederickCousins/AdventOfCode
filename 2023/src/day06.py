@@ -3,7 +3,7 @@ import math
 
 
 def loadInput():
-    data = aocd.get_data().split("\n")
+    data = aocd.get_data(year=2023, day=6).split("\n")
     times = [int(x) for x in data[0].split()[1:]]
     distances = [int(x) for x in data[1].split()[1:]]
     return times, distances
