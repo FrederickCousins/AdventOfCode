@@ -7,3 +7,6 @@
 
 # Hide vscode files
 .vscode/
+
+# Hide executables
+**/target/
