@@ -25,9 +25,9 @@ def loadInput():
     return instructions, maps
 
 
-def calcNumSteps(instructions, maps, curr, condition):
+def calcNumSteps(instructions, maps, curr, stop_condition):
     i = 0
-    while condition(curr):
+    while not stop_condition(curr):
         instruction = instructions[i % len(instructions)]
         if instruction == 'L':
             curr = maps[curr][0]
@@ -39,14 +39,14 @@ def calcNumSteps(instructions, maps, curr, condition):
 
 def part1(instructions, maps):
     curr = "AAA"
-    steps = calcNumSteps(instructions, maps, curr, lambda x: x != 'ZZZ')
+    steps = calcNumSteps(instructions, maps, curr, lambda x: x == 'ZZZ')
     print(f"Part 1: {steps}")
 
 
 def part2(instructions, maps):
-    curr = [key for key in maps.keys() if key[-1] == 'A']
+    curr = [key for key in maps.keys() if key.endswith('A')]
     steps = [calcNumSteps(
-        instructions, maps, node, lambda x: x[-1] != 'Z') for node in curr]
+        instructions, maps, node, lambda x: x.endswith('Z')) for node in curr]
     print(f"Part 2: {lcm(*steps)}")
 
 
