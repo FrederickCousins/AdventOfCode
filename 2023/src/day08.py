@@ -6,7 +6,7 @@ from math import lcm
 def loadInput():
     data = aocd.get_data(year=2023, day=8).split("\n\n")
     instructions = list(data[0])
-    
+
     maps = {}
     for line in data[1].split('\n'):
         key, l, r = re.findall(r"([A-Z]{3})", line)
@@ -19,13 +19,10 @@ def calcNumSteps(instructions, maps, curr, stop_condition):
     i = 0
     while not stop_condition(curr):
         instruction = instructions[i % len(instructions)]
-        if instruction == 'L':
-            curr = maps[curr][0]
-        elif instruction == 'R':
-            curr = maps[curr][1]
+        curr = maps[curr][instruction == 'R']  # L: 0, R: 1
         i += 1
-    
     return i
+
 
 def part1(instructions, maps):
     curr = "AAA"
