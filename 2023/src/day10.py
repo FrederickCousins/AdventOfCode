@@ -70,40 +70,26 @@ def part1(data):
 
 def part2(data):
     start_pos = findStart(data)
-    path0, path1 = findInitialPaths(data, start_pos)
+    path, _ = findInitialPaths(data, start_pos)
 
-    while path0[-1] != path1[-1]:
-        followPath(data, path0)
-        followPath(data, path1)
+    while path[-1] != start_pos:
+        followPath(data, path)
+    path.pop()
 
-    path0.extend(path1)
-    path = list(set(path0))
+    # Calculate area using shoelace formula
+    area = 0
+    L = len(path)
+    for idx in range(L):
+        area += path[idx][0] * path[(idx+1) % L][1]
+        area -= path[idx][1] * path[(idx+1) % L][0]
+    area = abs(area)/2
 
-    print(path)
+    # Pick's Formula to find num interior points
+    res = area + 1 - (L/2)
 
-    # H = len(data)
-    # W = len(data[0])
-    # res = 0
-    # for i, row in enumerate(data):
-    #     for j, point in enumerate(row):
-    #         if (any((x, j) in path for x in range(i)) and
-    #             any((x, j) in path for x in range(i+1, H)) and
-    #             any((i, x) in path for x in range(j)) and
-    #                 any((i, x) in path for x in range(j+1, W))):
-
-    #             res += 1
-    sum1 = sum2 = 0
-    for i in range(len(path)-1):
-        sum1 += path[i][0]*path[i+1][1]
-        sum2 += path[i][1]*path[i+1][0]
-    res = abs(sum1-sum2)/2 - len(path)
-
-    print(f"Part 2: {res}")
+    print(f"Part 2: {int(res)}")
 
 
-# def part1(data, start_pos):
-#     path1 = set([start_pos, )
-#     path2
 INPUT = loadInput()
 part1(INPUT)
 part2(INPUT)
