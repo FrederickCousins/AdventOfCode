@@ -60,7 +60,6 @@ fn check_run(nums: &[i32]) -> bool {
         .map(|n| n[1] - n[0])
         .collect();
 
-    let first
     let same_sign = diffs
         .iter()
         .map(|d| d.signum())
