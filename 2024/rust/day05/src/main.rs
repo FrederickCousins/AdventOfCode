@@ -1,72 +1,31 @@
-use std::cmp::Ordering;
-use std::collections::HashMap;
-use std::fs;
+use std::collections::{HashMap, HashSet};
 
 fn main() {
-    let data = fs::read_to_string("../inputs/day05.txt").expect("Failed to read input file");
-    let (keys, sequences) = parse(&data);
-    let comparisons = build_comparisons(&keys);
+    let data = std::fs::read_to_string("../inputs/day05.txt").expect("Failed to read input file");
+    let (keys, sequences) = data.split_once("\n\n").unwrap();
 
-    part1(&comparisons, &sequences);
-    part2(&comparisons, &sequences);
-}
-
-fn parse(data: &str) -> (Vec<(u32, u32)>, Vec<Vec<u32>>) {
-    let parts: Vec<&str> = data.split("\n\n").collect();
-
-    let keys: Vec<(u32, u32)> = parts[0]
-        .lines()
-        .filter_map(|line| {
-            let nums: Vec<u32> = line.split("|").filter_map(|num| num.parse::<u32>().ok()).collect();
-            if nums.len() == 2 { Some((nums[0], nums[1])) } else { None }
-        })
-        .collect();
-
-    let sequences: Vec<Vec<u32>> = parts[1]
-        .lines()
-        .map(|line| line.split(",").filter_map(|num| num.parse::<u32>().ok()).collect())
-        .collect();
-
-    (keys, sequences)
-}
-
-fn build_comparisons(keys: &[(u32, u32)]) -> HashMap<(u32, u32), Ordering> {
-    let mut comparisons = HashMap::new();
-    for &(l, r) in keys {
-        comparisons.insert((l, r), Ordering::Less);
-        comparisons.insert((r, l), Ordering::Greater);
+    let mut orderings = HashMap::<u32, HashSet<u32>>::new();
+    for line in keys.lines() {
+        let (x, y) = line.split_once('|').unwrap();
+        orderings.entry(y.parse().unwrap())
+            .or_default()
+            .insert(x.parse().unwrap());
     }
-    comparisons
-}
 
-fn sort_and_filter<F>(comparisons: &HashMap<(u32, u32), Ordering>, sequences: &[Vec<u32>], filter_fn: F) -> u32
-where
-    F: Fn(&Vec<u32>, &Vec<u32>) -> bool,
-{
-    let compare = |a: &u32, b: &u32| {
-        comparisons.get(&(*a, *b)).copied().unwrap_or(Ordering::Equal)
-    };
+    let sequences = sequences.lines().map(|line| {
+        line.split(',').map(|num| num.parse::<u32>().unwrap()).collect::<Vec<_>>()
+    });
 
-    sequences
-        .iter()
-        .filter_map(|seq| {
-            let mut sorted = seq.clone();
-            sorted.sort_by(compare);
-            if filter_fn(seq, &sorted) {
-                Some(sorted[sorted.len() / 2])
-            } else {
-                None
-            }
-        })
-        .sum()
-}
+    let (mut part1, mut part2) = (0, 0);
+    for mut seq in sequences {
+        if seq.is_sorted_by(|a, b| orderings[b].contains(a)) {
+            part1 += seq[seq.len() / 2];
+        } else {
+            seq.sort_by(|a, b| orderings[b].contains(a).cmp(&true));
+            part2 += seq[seq.len() / 2];
+        }
+    }
 
-fn part1(comparisons: &HashMap<(u32, u32), Ordering>, sequences: &[Vec<u32>]) {
-    let res = sort_and_filter(comparisons, sequences, |seq, sorted| seq == sorted);
-    println!("Part 1: {res}");
-}
-
-fn part2(comparisons: &HashMap<(u32, u32), Ordering>, sequences: &[Vec<u32>]) {
-    let res = sort_and_filter(comparisons, sequences, |seq, sorted| seq != sorted);
-    println!("Part 2: {res}");
+    println!("Part 1: {part1}");
+    println!("Part 2: {part2}");
 }
